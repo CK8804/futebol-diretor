@@ -9,20 +9,50 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SquadRouteImport } from './routes/squad'
+import { Route as PressRouteImport } from './routes/press'
 import { Route as PlayersRouteImport } from './routes/players'
+import { Route as MarketRouteImport } from './routes/market'
 import { Route as LeaguesRouteImport } from './routes/leagues'
+import { Route as FinanceRouteImport } from './routes/finance'
+import { Route as CompetitionsRouteImport } from './routes/competitions'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppIndexRouteImport } from './routes/app/index'
 
+const SquadRoute = SquadRouteImport.update({
+  id: '/squad',
+  path: '/squad',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PressRoute = PressRouteImport.update({
+  id: '/press',
+  path: '/press',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PlayersRoute = PlayersRouteImport.update({
   id: '/players',
   path: '/players',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MarketRoute = MarketRouteImport.update({
+  id: '/market',
+  path: '/market',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LeaguesRoute = LeaguesRouteImport.update({
   id: '/leagues',
   path: '/leagues',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FinanceRoute = FinanceRouteImport.update({
+  id: '/finance',
+  path: '/finance',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CompetitionsRoute = CompetitionsRouteImport.update({
+  id: '/competitions',
+  path: '/competitions',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppRoute = AppRouteImport.update({
@@ -44,41 +74,105 @@ const AppIndexRoute = AppIndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
+  '/competitions': typeof CompetitionsRoute
+  '/finance': typeof FinanceRoute
   '/leagues': typeof LeaguesRoute
+  '/market': typeof MarketRoute
   '/players': typeof PlayersRoute
+  '/press': typeof PressRoute
+  '/squad': typeof SquadRoute
   '/app/': typeof AppIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/competitions': typeof CompetitionsRoute
+  '/finance': typeof FinanceRoute
   '/leagues': typeof LeaguesRoute
+  '/market': typeof MarketRoute
   '/players': typeof PlayersRoute
+  '/press': typeof PressRoute
+  '/squad': typeof SquadRoute
   '/app': typeof AppIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
+  '/competitions': typeof CompetitionsRoute
+  '/finance': typeof FinanceRoute
   '/leagues': typeof LeaguesRoute
+  '/market': typeof MarketRoute
   '/players': typeof PlayersRoute
+  '/press': typeof PressRoute
+  '/squad': typeof SquadRoute
   '/app/': typeof AppIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/app' | '/leagues' | '/players' | '/app/'
+  fullPaths:
+    | '/'
+    | '/app'
+    | '/competitions'
+    | '/finance'
+    | '/leagues'
+    | '/market'
+    | '/players'
+    | '/press'
+    | '/squad'
+    | '/app/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/leagues' | '/players' | '/app'
-  id: '__root__' | '/' | '/app' | '/leagues' | '/players' | '/app/'
+  to:
+    | '/'
+    | '/competitions'
+    | '/finance'
+    | '/leagues'
+    | '/market'
+    | '/players'
+    | '/press'
+    | '/squad'
+    | '/app'
+  id:
+    | '__root__'
+    | '/'
+    | '/app'
+    | '/competitions'
+    | '/finance'
+    | '/leagues'
+    | '/market'
+    | '/players'
+    | '/press'
+    | '/squad'
+    | '/app/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AppRoute: typeof AppRouteWithChildren
+  CompetitionsRoute: typeof CompetitionsRoute
+  FinanceRoute: typeof FinanceRoute
   LeaguesRoute: typeof LeaguesRoute
+  MarketRoute: typeof MarketRoute
   PlayersRoute: typeof PlayersRoute
+  PressRoute: typeof PressRoute
+  SquadRoute: typeof SquadRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/squad': {
+      id: '/squad'
+      path: '/squad'
+      fullPath: '/squad'
+      preLoaderRoute: typeof SquadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/press': {
+      id: '/press'
+      path: '/press'
+      fullPath: '/press'
+      preLoaderRoute: typeof PressRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/players': {
       id: '/players'
       path: '/players'
@@ -86,11 +180,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlayersRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/market': {
+      id: '/market'
+      path: '/market'
+      fullPath: '/market'
+      preLoaderRoute: typeof MarketRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/leagues': {
       id: '/leagues'
       path: '/leagues'
       fullPath: '/leagues'
       preLoaderRoute: typeof LeaguesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/finance': {
+      id: '/finance'
+      path: '/finance'
+      fullPath: '/finance'
+      preLoaderRoute: typeof FinanceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/competitions': {
+      id: '/competitions'
+      path: '/competitions'
+      fullPath: '/competitions'
+      preLoaderRoute: typeof CompetitionsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/app': {
@@ -130,8 +245,13 @@ const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppRoute: AppRouteWithChildren,
+  CompetitionsRoute: CompetitionsRoute,
+  FinanceRoute: FinanceRoute,
   LeaguesRoute: LeaguesRoute,
+  MarketRoute: MarketRoute,
   PlayersRoute: PlayersRoute,
+  PressRoute: PressRoute,
+  SquadRoute: SquadRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
