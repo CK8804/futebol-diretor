@@ -51,15 +51,14 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
-      { title: 'Blink App' },
-      { name: 'description', content: 'An app built with Blink.' },
-      { name: 'theme-color', content: '#0a0a0a' },
+      { title: 'Futebol Diretor Pro · Simulador de gestão' },
+      { name: 'description', content: 'Simule a gestão de um clube profissional entre finanças, elenco, mercado e competições.' },
+      { name: 'theme-color', content: '#173f31' },
       { property: 'og:type', content: 'website' },
-      { property: 'og:title', content: 'Blink App' },
-      { property: 'og:description', content: 'An app built with Blink.' },
-      // Shared-shell SEO defaults — set these to the real brand/locale per app.
-      { property: 'og:site_name', content: 'Blink App' },
-      { property: 'og:locale', content: 'en_US' },
+      { property: 'og:title', content: 'Futebol Diretor Pro' },
+      { property: 'og:description', content: 'Simulador profundo de gestão de futebol profissional.' },
+      { property: 'og:site_name', content: 'Futebol Diretor Pro' },
+      { property: 'og:locale', content: 'pt_BR' },
       { name: 'twitter:card', content: 'summary_large_image' },
     ],
     links: [

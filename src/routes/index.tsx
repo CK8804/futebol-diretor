@@ -1,7 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
 import {
-  AlertTriangle,
   ArrowUpRight,
   Banknote,
   Bell,
@@ -21,6 +20,7 @@ import {
   Users,
   WalletCards,
 } from 'lucide-react'
+import { leagues, featuredPlayers } from '@/game-data'
 
 export const Route = createFileRoute('/')({
   head: () => ({
@@ -47,6 +47,7 @@ const navItems = [
   { icon: Search, label: 'Mercado' },
   { icon: Trophy, label: 'Competições' },
   { icon: Newspaper, label: 'Imprensa & mundo' },
+  { icon: Users, label: 'Base de jogadores' },
 ]
 
 function formatDate(day: number) {
@@ -90,9 +91,11 @@ function Dashboard() {
           </header>
 
           <div className="mx-auto max-w-[1500px] space-y-6 p-5 md:p-8">
-            <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end"><div><p className="mb-2 text-xs font-semibold uppercase tracking-[0.22em] text-primary">Centro de comando</p><h1 className="font-serif text-3xl tracking-tight md:text-4xl">Bom dia, Davi.</h1><p className="mt-2 max-w-xl text-sm text-muted-foreground">O Aurora entra em uma semana decisiva. Três decisões exigem sua assinatura antes do próximo domingo.</p></div><button onClick={() => { setDay(day + 1); setResolved([]) }} className="group flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-3 text-sm font-bold text-primary-foreground shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0"><CalendarDays className="h-4 w-4" />Avançar um dia<ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" /></button></div>
+            <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end"><div><p className="mb-2 text-xs font-semibold uppercase tracking-[0.22em] text-primary">Centro de comando</p><h1 className="font-serif text-3xl tracking-tight md:text-4xl">Bom dia, Davi.</h1><p className="mt-2 max-w-xl text-sm text-muted-foreground">O Aurora entra em uma semana decisiva. Três decisões exigem sua assinatura antes do próximo domingo.</p></div><div className="flex flex-wrap gap-2"><a href="/leagues" className="flex items-center justify-center gap-2 rounded-lg border border-border bg-card px-4 py-3 text-sm font-bold transition-colors hover:bg-muted">Banco de ligas</a><button onClick={() => { setDay(day + 1); setResolved([]) }} className="group flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-3 text-sm font-bold text-primary-foreground shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0"><CalendarDays className="h-4 w-4" />Avançar um dia<ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" /></button></div></div>
 
-            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            <div className="rounded-xl border border-border bg-card p-5 shadow-sm"><div className="flex flex-col justify-between gap-3 md:flex-row md:items-center"><div><p className="text-[10px] font-bold uppercase tracking-[0.18em] text-primary">Base inicial disponível</p><h2 className="mt-1 font-serif text-xl">Seis ligas · {leagues.reduce((total, league) => total + league.clubs.length, 0)} clubes · {featuredPlayers.length} atletas de referência</h2><p className="mt-1 text-xs text-muted-foreground">Premier League, Ligue 1, LaLiga, Serie A Enilive, Bundesliga e Brasileirão Série A.</p></div><a href="/players" className="shrink-0 rounded-lg bg-secondary px-4 py-2.5 text-xs font-bold text-secondary-foreground hover:bg-muted">Explorar jogadores <ArrowUpRight className="ml-1 inline h-3.5 w-3.5" /></a></div></div>
++
++            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
               <Metric icon={CircleDollarSign} label="Caixa disponível" value="R$ 18,4 mi" note="− R$ 620 mil este mês" tone="yellow" />
               <Metric icon={Users} label="Folha mensal" value="R$ 6,82 mi" note="8,4% acima do limite" tone="red" />
               <Metric icon={Gauge} label="Confiança do conselho" value="72 / 100" note="+4 após última vitória" tone="green" />
