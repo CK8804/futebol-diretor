@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SquadRouteImport } from './routes/squad'
+import { Route as SimulationRouteImport } from './routes/simulation'
 import { Route as PressRouteImport } from './routes/press'
 import { Route as PlayersRouteImport } from './routes/players'
 import { Route as MarketRouteImport } from './routes/market'
@@ -23,6 +24,11 @@ import { Route as AppIndexRouteImport } from './routes/app/index'
 const SquadRoute = SquadRouteImport.update({
   id: '/squad',
   path: '/squad',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SimulationRoute = SimulationRouteImport.update({
+  id: '/simulation',
+  path: '/simulation',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PressRoute = PressRouteImport.update({
@@ -80,6 +86,7 @@ export interface FileRoutesByFullPath {
   '/market': typeof MarketRoute
   '/players': typeof PlayersRoute
   '/press': typeof PressRoute
+  '/simulation': typeof SimulationRoute
   '/squad': typeof SquadRoute
   '/app/': typeof AppIndexRoute
 }
@@ -91,6 +98,7 @@ export interface FileRoutesByTo {
   '/market': typeof MarketRoute
   '/players': typeof PlayersRoute
   '/press': typeof PressRoute
+  '/simulation': typeof SimulationRoute
   '/squad': typeof SquadRoute
   '/app': typeof AppIndexRoute
 }
@@ -104,6 +112,7 @@ export interface FileRoutesById {
   '/market': typeof MarketRoute
   '/players': typeof PlayersRoute
   '/press': typeof PressRoute
+  '/simulation': typeof SimulationRoute
   '/squad': typeof SquadRoute
   '/app/': typeof AppIndexRoute
 }
@@ -118,6 +127,7 @@ export interface FileRouteTypes {
     | '/market'
     | '/players'
     | '/press'
+    | '/simulation'
     | '/squad'
     | '/app/'
   fileRoutesByTo: FileRoutesByTo
@@ -129,6 +139,7 @@ export interface FileRouteTypes {
     | '/market'
     | '/players'
     | '/press'
+    | '/simulation'
     | '/squad'
     | '/app'
   id:
@@ -141,6 +152,7 @@ export interface FileRouteTypes {
     | '/market'
     | '/players'
     | '/press'
+    | '/simulation'
     | '/squad'
     | '/app/'
   fileRoutesById: FileRoutesById
@@ -154,6 +166,7 @@ export interface RootRouteChildren {
   MarketRoute: typeof MarketRoute
   PlayersRoute: typeof PlayersRoute
   PressRoute: typeof PressRoute
+  SimulationRoute: typeof SimulationRoute
   SquadRoute: typeof SquadRoute
 }
 
@@ -164,6 +177,13 @@ declare module '@tanstack/react-router' {
       path: '/squad'
       fullPath: '/squad'
       preLoaderRoute: typeof SquadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/simulation': {
+      id: '/simulation'
+      path: '/simulation'
+      fullPath: '/simulation'
+      preLoaderRoute: typeof SimulationRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/press': {
@@ -251,6 +271,7 @@ const rootRouteChildren: RootRouteChildren = {
   MarketRoute: MarketRoute,
   PlayersRoute: PlayersRoute,
   PressRoute: PressRoute,
+  SimulationRoute: SimulationRoute,
   SquadRoute: SquadRoute,
 }
 export const routeTree = rootRouteImport

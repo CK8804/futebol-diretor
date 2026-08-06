@@ -41,13 +41,14 @@ const alerts: AlertItem[] = [
 ]
 
 const navItems = [
-  { icon: LayoutDashboard, label: 'Centro de comando', active: true },
-  { icon: Users, label: 'Elenco & staff' },
-  { icon: WalletCards, label: 'Finanças' },
-  { icon: Search, label: 'Mercado' },
-  { icon: Trophy, label: 'Competições' },
-  { icon: Newspaper, label: 'Imprensa & mundo' },
-  { icon: Users, label: 'Base de jogadores' },
+  { icon: LayoutDashboard, label: 'Centro de comando', href: '/' },
+  { icon: Users, label: 'Elenco & staff', href: '/squad' },
+  { icon: WalletCards, label: 'Finanças', href: '/finance' },
+  { icon: Search, label: 'Mercado', href: '/market' },
+  { icon: Trophy, label: 'Competições', href: '/competitions' },
+  { icon: Newspaper, label: 'Imprensa & mundo', href: '/press' },
+  { icon: Play, label: 'Simulação de jogos', href: '/simulation' },
+  { icon: Users, label: 'Base de jogadores', href: '/players' },
 ]
 
 function formatDate(day: number) {
@@ -69,16 +70,16 @@ function Dashboard() {
         <aside className="hidden w-64 shrink-0 flex-col bg-sidebar text-sidebar-foreground lg:flex">
           <div className="border-b border-sidebar-border px-6 py-6">
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-sidebar-primary text-lg font-black text-sidebar-primary-foreground">A</div>
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-sidebar-primary text-lg font-black text-sidebar-primary-foreground">AFC</div>
               <div><p className="font-serif text-lg leading-none">Aurora</p><p className="mt-1 text-[10px] uppercase tracking-[0.2em] text-sidebar-foreground/60">Diretor Pro</p></div>
             </div>
           </div>
           <nav className="flex-1 space-y-1 px-3 py-6" aria-label="Navegação principal">
             <p className="px-3 pb-3 text-[10px] font-semibold uppercase tracking-[0.2em] text-sidebar-foreground/45">Clube</p>
-            {navItems.map(({ icon: Icon, label, active }) => (
-              <button key={label} onClick={() => setActiveNav(label)} className={`flex w-full items-center gap-3 rounded-lg px-3 py-3 text-left text-sm transition-all duration-200 hover:translate-x-0.5 hover:bg-sidebar-accent ${activeNav === label || (active && activeNav === 'Centro de comando') ? 'bg-sidebar-accent font-semibold text-sidebar-primary' : 'text-sidebar-foreground/70'}`}>
+            {navItems.map(({ icon: Icon, label, href }) => (
+              <a key={label} href={href} onClick={() => setActiveNav(label)} className={`flex w-full items-center gap-3 rounded-lg px-3 py-3 text-left text-sm transition-all duration-200 hover:translate-x-0.5 hover:bg-sidebar-accent ${activeNav === label ? 'bg-sidebar-accent font-semibold text-sidebar-primary' : 'text-sidebar-foreground/70'}`}>
                 <Icon className="h-4 w-4 shrink-0" /><span>{label}</span>{activeNav === label && <ChevronRight className="ml-auto h-3.5 w-3.5" />}
-              </button>
+              </a>
             ))}
           </nav>
           <div className="border-t border-sidebar-border p-4"><div className="flex items-center gap-3 rounded-lg bg-sidebar-accent/60 p-3"><div className="flex h-8 w-8 items-center justify-center rounded-full bg-sidebar-primary text-xs font-bold text-sidebar-primary-foreground">DV</div><div className="min-w-0"><p className="truncate text-xs font-semibold">Davi Vasconcelos</p><p className="text-[10px] text-sidebar-foreground/55">Diretor executivo</p></div></div></div>
@@ -94,15 +95,17 @@ function Dashboard() {
             <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end"><div><p className="mb-2 text-xs font-semibold uppercase tracking-[0.22em] text-primary">Centro de comando</p><h1 className="font-serif text-3xl tracking-tight md:text-4xl">Bom dia, Davi.</h1><p className="mt-2 max-w-xl text-sm text-muted-foreground">O Aurora entra em uma semana decisiva. Três decisões exigem sua assinatura antes do próximo domingo.</p></div><div className="flex flex-wrap gap-2"><a href="/leagues" className="flex items-center justify-center gap-2 rounded-lg border border-border bg-card px-4 py-3 text-sm font-bold transition-colors hover:bg-muted">Banco de ligas</a><button onClick={() => { setDay(day + 1); setResolved([]) }} className="group flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-3 text-sm font-bold text-primary-foreground shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0"><CalendarDays className="h-4 w-4" />Avançar um dia<ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" /></button></div></div>
 
             <div className="rounded-xl border border-border bg-card p-5 shadow-sm"><div className="flex flex-col justify-between gap-3 md:flex-row md:items-center"><div><p className="text-[10px] font-bold uppercase tracking-[0.18em] text-primary">Base inicial disponível</p><h2 className="mt-1 font-serif text-xl">Seis ligas · {leagues.reduce((total, league) => total + league.clubs.length, 0)} clubes · {featuredPlayers.length} atletas de referência</h2><p className="mt-1 text-xs text-muted-foreground">Premier League, Ligue 1, LaLiga, Serie A Enilive, Bundesliga e Brasileirão Série A.</p></div><a href="/players" className="shrink-0 rounded-lg bg-secondary px-4 py-2.5 text-xs font-bold text-secondary-foreground hover:bg-muted">Explorar jogadores <ArrowUpRight className="ml-1 inline h-3.5 w-3.5" /></a></div></div>
-+
-+            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+
+            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
               <Metric icon={CircleDollarSign} label="Caixa disponível" value="R$ 18,4 mi" note="− R$ 620 mil este mês" tone="yellow" />
               <Metric icon={Users} label="Folha mensal" value="R$ 6,82 mi" note="8,4% acima do limite" tone="red" />
               <Metric icon={Gauge} label="Confiança do conselho" value="72 / 100" note="+4 após última vitória" tone="green" />
               <Metric icon={Goal} label="Meta da temporada" value="Top 8" note="Aurora está em 6º lugar" tone="blue" />
             </div>
 
-            <div className="grid gap-6 xl:grid-cols-[1.4fr_0.9fr]">
+            <a href="/simulation" className="group flex items-center justify-between rounded-xl border border-primary/25 bg-primary/5 p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"><div><p className="text-[10px] font-bold uppercase tracking-[0.18em] text-primary">Match center</p><h2 className="mt-1 font-serif text-xl">Assistir simulação ao vivo</h2><p className="mt-1 text-sm text-muted-foreground">Aurora FC × Náutico Central · narração lance a lance</p></div><span className="flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-xs font-bold text-primary-foreground">Abrir transmissão <Play className="h-4 w-4 transition-transform group-hover:translate-x-0.5" /></span></a>
++
++            <div className="grid gap-6 xl:grid-cols-[1.4fr_0.9fr]">
               <div className="space-y-6">
                 <section className="overflow-hidden rounded-xl border border-border bg-card shadow-sm"><div className="flex items-center justify-between border-b border-border px-5 py-4"><div><p className="text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">Próximo compromisso</p><h2 className="mt-1 font-serif text-2xl">A decisão começa antes do apito</h2></div><span className="rounded-full bg-accent px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-accent-foreground">Brasileirão · Rodada 21</span></div><div className="grid gap-5 p-5 md:grid-cols-[1fr_auto_1fr] md:items-center"><Team name="Aurora FC" crest="A" form="V E V V D" /><div className="text-center"><p className="text-xs text-muted-foreground">Dom · 09 ago · 16:00</p><p className="my-2 text-3xl font-black tracking-tight">— <span className="text-muted-foreground/40">×</span> —</p><p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Estádio Municipal · 31.420 torcedores</p></div><Team name="Náutico Central" crest="N" form="D V E D V" away /></div><div className="flex flex-wrap gap-3 border-t border-border bg-muted/30 px-5 py-4 text-xs text-muted-foreground"><span className="flex items-center gap-1.5"><ShieldAlert className="h-3.5 w-3.5 text-destructive" />Volante titular suspenso</span><span className="flex items-center gap-1.5"><Users className="h-3.5 w-3.5 text-primary" />68% de ocupação prevista</span><span className="flex items-center gap-1.5"><Banknote className="h-3.5 w-3.5 text-accent-foreground" />Receita estimada R$ 410 mil</span></div></section>
                 <section className="rounded-xl border border-border bg-card p-5 shadow-sm"><div className="mb-4 flex items-center justify-between"><div><p className="text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">Pulso da instituição</p><h2 className="mt-1 font-serif text-xl">Sinais que pedem decisão</h2></div><button onClick={() => setShowOffer(true)} className="text-xs font-bold text-primary hover:underline">Ver mercado <ArrowUpRight className="ml-1 inline h-3.5 w-3.5" /></button></div><div className="space-y-3">{alerts.map((alert) => resolved.includes(alert.text) ? null : <AlertRow key={alert.text} alert={alert} onResolve={() => resolveAlert(alert.text)} />)}</div>{resolved.length === alerts.length && <div className="rounded-lg border border-dashed border-border p-6 text-center text-sm text-muted-foreground">Nenhum alerta crítico pendente. O clube está respirando.</div>}</section>

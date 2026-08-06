@@ -71,7 +71,7 @@ export const Route = createRootRoute({
 
 function RootDocument({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="pt-BR">
       <head>
         {/* MUST be first: sets the theme class before paint so there is no
             flash-of-wrong-theme. Do not move below <HeadContent />. */}
@@ -89,8 +89,8 @@ function RootDocument({ children }: { children: ReactNode }) {
             __html: JSON.stringify({
               '@context': 'https://schema.org',
               '@graph': [
-                { '@type': 'WebSite', name: 'Blink App', url: '/' },
-                { '@type': 'Organization', name: 'Blink App', url: '/', sameAs: [] },
+                { '@type': 'WebSite', name: 'Futebol Diretor Pro', url: '/' },
+                { '@type': 'Organization', name: 'Futebol Diretor Pro', url: '/', sameAs: [] },
               ],
             }),
           }}
