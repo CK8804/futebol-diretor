@@ -23,6 +23,12 @@ import {
   LayoutDashboard,
   LogOut,
   PanelLeft,
+  Play,
+  Search,
+  Trophy,
+  Users,
+  WalletCards,
+  Newspaper,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -40,7 +46,13 @@ interface NavItemDef {
 // 404. Only the shipped dashboard route is listed; add yours as you create them,
 // e.g. `src/routes/app/items.tsx` → { href: '/app/items', label: 'Items' }.
 const NAV_ITEMS: NavItemDef[] = [
-  { href: '/app', icon: <LayoutDashboard className="h-4 w-4" />, label: 'Dashboard', active: true },
+  { href: '/', icon: <LayoutDashboard className="h-4 w-4" />, label: 'Centro de comando', active: true },
+  { href: '/squad', icon: <Users className="h-4 w-4" />, label: 'Elenco & staff' },
+  { href: '/finance', icon: <WalletCards className="h-4 w-4" />, label: 'Finanças' },
+  { href: '/market', icon: <Search className="h-4 w-4" />, label: 'Mercado' },
+  { href: '/competitions', icon: <Trophy className="h-4 w-4" />, label: 'Competições' },
+  { href: '/press', icon: <Newspaper className="h-4 w-4" />, label: 'Imprensa & mundo' },
+  { href: '/simulation', icon: <Play className="h-4 w-4" />, label: 'Simulação de jogos' },
 ]
 
 function NavItem({ item, collapsed }: { item: NavItemDef; collapsed: boolean }) {
@@ -104,10 +116,10 @@ export function AppSidebarShell() {
         >
           {!collapsed && (
             <>
-              <div className="flex items-center justify-center h-7 w-7 rounded-md bg-primary text-primary-foreground text-xs font-bold shrink-0">
-                A
+              <div className="flex items-center justify-center h-7 w-7 rounded-md bg-primary text-primary-foreground text-[10px] font-black shrink-0">
+                AFC
               </div>
-              <span className="flex-1 font-semibold text-sm truncate">App</span>
+              <span className="flex-1 font-semibold text-sm truncate">Aurora Diretor Pro</span>
             </>
           )}
           <Tooltip>
