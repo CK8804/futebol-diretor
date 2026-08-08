@@ -12,10 +12,20 @@ export const initialStaff: StaffMember[] = [
   { name: 'Bruno Lacerda', role: 'Preparador físico', rating: 76, salary: 420000 },
 ]
 
-const starterSquad = featuredPlayers.filter((player) => ['Aurora FC', 'Flamengo', 'Palmeiras', 'Fluminense'].includes(player.club)).slice(0, 7)
+const starterSquad = featuredPlayers
+  .filter((player) => ['Aurora FC', 'Flamengo', 'Palmeiras', 'Fluminense'].includes(player.club))
+  .slice(0, 7)
+  .map((player) => ({ ...player, club: 'Aurora FC' }))
 
 export function createInitialState(): ClubState {
-  return { balance: 18400000, transferBudget: 7200000, squad: starterSquad, staff: initialStaff, watched: [], signed: [] }
+  return {
+    balance: 18400000,
+    transferBudget: 7200000,
+    squad: starterSquad,
+    staff: initialStaff,
+    watched: [],
+    signed: [],
+  }
 }
 
 export function loadState(): ClubState {

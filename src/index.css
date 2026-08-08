@@ -15,12 +15,12 @@
 /* ── Design tokens — the ONLY place the app's visual identity is defined.
    Re-theme the whole app by editing the values in :root (+ .dark). No other file. ── */
 :root {
-  --background: oklch(0.975 0.012 245);
-  --foreground: oklch(0.22 0.035 250);
-  --card: oklch(0.995 0.006 245);
-  --card-foreground: oklch(0.22 0.035 250);
-  --popover: oklch(0.995 0.006 245);
-  --popover-foreground: oklch(0.22 0.035 250);
+  --background: oklch(0.975 0.018 80);
+  --foreground: oklch(0.22 0.04 35);
+  --card: oklch(0.995 0.008 80);
+  --card-foreground: oklch(0.22 0.04 35);
+  --popover: oklch(0.995 0.008 80);
+  --popover-foreground: oklch(0.22 0.04 35);
   --primary: oklch(0.51 0.19 28);
   --primary-foreground: oklch(0.98 0.01 30);
   --secondary: oklch(0.94 0.035 72);
@@ -31,9 +31,9 @@
   --accent-foreground: oklch(0.28 0.06 48);
   --destructive: oklch(0.58 0.18 28);
   --destructive-foreground: oklch(0.98 0.01 20);
-  --border: oklch(0.86 0.025 245);
-  --input: oklch(0.86 0.025 245);
-  --ring: oklch(0.47 0.16 245);
+  --border: oklch(0.86 0.035 72);
+  --input: oklch(0.86 0.035 72);
+  --ring: oklch(0.51 0.19 28);
   --chart-1: oklch(0.43 0.13 157);
   --chart-2: oklch(0.72 0.15 85);
   --chart-3: oklch(0.58 0.12 210);

@@ -70,7 +70,7 @@ function Dashboard() {
         <aside className="hidden w-64 shrink-0 flex-col bg-sidebar text-sidebar-foreground lg:flex">
           <div className="border-b border-sidebar-border px-6 py-6">
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-sidebar-primary text-lg font-black text-sidebar-primary-foreground">AFC</div>
+              <img src="/club-crests/aurora-fc.svg" alt="Escudo do Aurora FC" className="h-10 w-10 rounded-xl" />
               <div><p className="font-serif text-lg leading-none">Aurora</p><p className="mt-1 text-[10px] uppercase tracking-[0.2em] text-sidebar-foreground/60">Diretor Pro</p></div>
             </div>
           </div>
