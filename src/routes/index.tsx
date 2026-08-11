@@ -1,5 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { CareerStartScreen, type Career } from '@/components/CareerStartScreen'
 import {
   ArrowUpRight,
   Banknote,
@@ -56,11 +57,31 @@ function formatDate(day: number) {
 }
 
 function Dashboard() {
+  const [career, setCareer] = useState<Career | null>(null)
+  const [checkingSave, setCheckingSave] = useState(true)
   const [day, setDay] = useState(4)
   const [activeNav, setActiveNav] = useState('Centro de comando')
   const [isPaused, setIsPaused] = useState(true)
   const [resolved, setResolved] = useState<string[]>([])
   const [showOffer, setShowOffer] = useState(false)
+  useEffect(() => {
+    const activeId = window.localStorage.getItem('futebol-diretor-active-career')
+    const raw = window.localStorage.getItem('futebol-diretor-careers-v1')
+    if (activeId && raw) {
+      try {
+        const active = (JSON.parse(raw) as Career[]).find((item) => item.id === activeId)
+        if (active) {
+          // eslint-disable-next-line react-hooks/set-state-in-effect
+          setCareer(active)
+          setDay(active.day)
+        }
+      } catch { /* show launcher when the save is invalid */ }
+    }
+    setCheckingSave(false)
+  }, [])
+  if (checkingSave) return <div className="flex min-h-dvh items-center justify-center bg-sidebar text-sidebar-primary"><div className="h-8 w-8 animate-spin rounded-full border-2 border-sidebar-primary border-t-transparent" /></div>
+  if (!career) return <CareerStartScreen onStart={(nextCareer) => { setCareer(nextCareer); setDay(nextCareer.day) }} />
+
 
   const resolveAlert = (text: string) => setResolved((current) => [...current, text])
 
@@ -82,7 +103,7 @@ function Dashboard() {
               </a>
             ))}
           </nav>
-          <div className="border-t border-sidebar-border p-4"><div className="flex items-center gap-3 rounded-lg bg-sidebar-accent/60 p-3"><div className="flex h-8 w-8 items-center justify-center rounded-full bg-sidebar-primary text-xs font-bold text-sidebar-primary-foreground">DV</div><div className="min-w-0"><p className="truncate text-xs font-semibold">Davi Vasconcelos</p><p className="text-[10px] text-sidebar-foreground/55">Diretor executivo</p></div></div></div>
+          <div className="border-t border-sidebar-border p-4"><div className="flex items-center gap-3 rounded-lg bg-sidebar-accent/60 p-3"><div className="flex h-8 w-8 items-center justify-center rounded-full bg-sidebar-primary text-xs font-bold text-sidebar-primary-foreground">{career.clubCode}</div><div className="min-w-0"><p className="truncate text-xs font-semibold">{career.managerName}</p><p className="text-[10px] text-sidebar-foreground/55">Diretor executivo</p></div></div></div>
         </aside>
 
         <section className="min-w-0 flex-1">
@@ -92,7 +113,7 @@ function Dashboard() {
           </header>
 
           <div className="mx-auto max-w-[1500px] space-y-6 p-5 md:p-8">
-            <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end"><div><p className="mb-2 text-xs font-semibold uppercase tracking-[0.22em] text-primary">Centro de comando</p><h1 className="font-serif text-3xl tracking-tight md:text-4xl">Bom dia, Davi.</h1><p className="mt-2 max-w-xl text-sm text-muted-foreground">O Aurora entra em uma semana decisiva. Três decisões exigem sua assinatura antes do próximo domingo.</p></div><div className="flex flex-wrap gap-2"><a href="/leagues" className="flex items-center justify-center gap-2 rounded-lg border border-border bg-card px-4 py-3 text-sm font-bold transition-colors hover:bg-muted">Banco de ligas</a><button onClick={() => { setDay(day + 1); setResolved([]) }} className="group flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-3 text-sm font-bold text-primary-foreground shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0"><CalendarDays className="h-4 w-4" />Avançar um dia<ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" /></button></div></div>
+            <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end"><div><p className="mb-2 text-xs font-semibold uppercase tracking-[0.22em] text-primary">Centro de comando · {career.club}</p><h1 className="font-serif text-3xl tracking-tight md:text-4xl">Bom dia, {career.managerName.split(' ')[0]}.</h1><p className="mt-2 max-w-xl text-sm text-muted-foreground">O Aurora entra em uma semana decisiva. Três decisões exigem sua assinatura antes do próximo domingo.</p></div><div className="flex flex-wrap gap-2"><a href="/leagues" className="flex items-center justify-center gap-2 rounded-lg border border-border bg-card px-4 py-3 text-sm font-bold transition-colors hover:bg-muted">Banco de ligas</a><button onClick={() => { setDay(day + 1); setResolved([]) }} className="group flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-3 text-sm font-bold text-primary-foreground shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0"><CalendarDays className="h-4 w-4" />Avançar um dia<ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" /></button></div></div>
 
             <div className="rounded-xl border border-border bg-card p-5 shadow-sm"><div className="flex flex-col justify-between gap-3 md:flex-row md:items-center"><div><p className="text-[10px] font-bold uppercase tracking-[0.18em] text-primary">Base inicial disponível</p><h2 className="mt-1 font-serif text-xl">Seis ligas · {leagues.reduce((total, league) => total + league.clubs.length, 0)} clubes · {featuredPlayers.length} atletas de referência</h2><p className="mt-1 text-xs text-muted-foreground">Premier League, Ligue 1, LaLiga, Serie A Enilive, Bundesliga e Brasileirão Série A.</p></div><a href="/players" className="shrink-0 rounded-lg bg-secondary px-4 py-2.5 text-xs font-bold text-secondary-foreground hover:bg-muted">Explorar jogadores <ArrowUpRight className="ml-1 inline h-3.5 w-3.5" /></a></div></div>
 
@@ -107,7 +128,7 @@ function Dashboard() {
 +
 +            <div className="grid gap-6 xl:grid-cols-[1.4fr_0.9fr]">
               <div className="space-y-6">
-                <section className="overflow-hidden rounded-xl border border-border bg-card shadow-sm"><div className="flex items-center justify-between border-b border-border px-5 py-4"><div><p className="text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">Próximo compromisso</p><h2 className="mt-1 font-serif text-2xl">A decisão começa antes do apito</h2></div><span className="rounded-full bg-accent px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-accent-foreground">Brasileirão · Rodada 21</span></div><div className="grid gap-5 p-5 md:grid-cols-[1fr_auto_1fr] md:items-center"><Team name="Aurora FC" crest="A" form="V E V V D" /><div className="text-center"><p className="text-xs text-muted-foreground">Dom · 09 ago · 16:00</p><p className="my-2 text-3xl font-black tracking-tight">— <span className="text-muted-foreground/40">×</span> —</p><p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Estádio Municipal · 31.420 torcedores</p></div><Team name="Náutico Central" crest="N" form="D V E D V" away /></div><div className="flex flex-wrap gap-3 border-t border-border bg-muted/30 px-5 py-4 text-xs text-muted-foreground"><span className="flex items-center gap-1.5"><ShieldAlert className="h-3.5 w-3.5 text-destructive" />Volante titular suspenso</span><span className="flex items-center gap-1.5"><Users className="h-3.5 w-3.5 text-primary" />68% de ocupação prevista</span><span className="flex items-center gap-1.5"><Banknote className="h-3.5 w-3.5 text-accent-foreground" />Receita estimada R$ 410 mil</span></div></section>
+                <section className="overflow-hidden rounded-xl border border-border bg-card shadow-sm"><div className="flex items-center justify-between border-b border-border px-5 py-4"><div><p className="text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">Próximo compromisso</p><h2 className="mt-1 font-serif text-2xl">A decisão começa antes do apito</h2></div><span className="rounded-full bg-accent px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-accent-foreground">Brasileirão · Rodada 21</span></div><div className="grid gap-5 p-5 md:grid-cols-[1fr_auto_1fr] md:items-center"><Team name={career.club} crest={career.clubCode.slice(0, 1)} form="V E V V D" /><div className="text-center"><p className="text-xs text-muted-foreground">Dom · 09 ago · 16:00</p><p className="my-2 text-3xl font-black tracking-tight">— <span className="text-muted-foreground/40">×</span> —</p><p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Estádio Municipal · 31.420 torcedores</p></div><Team name="Náutico Central" crest="N" form="D V E D V" away /></div><div className="flex flex-wrap gap-3 border-t border-border bg-muted/30 px-5 py-4 text-xs text-muted-foreground"><span className="flex items-center gap-1.5"><ShieldAlert className="h-3.5 w-3.5 text-destructive" />Volante titular suspenso</span><span className="flex items-center gap-1.5"><Users className="h-3.5 w-3.5 text-primary" />68% de ocupação prevista</span><span className="flex items-center gap-1.5"><Banknote className="h-3.5 w-3.5 text-accent-foreground" />Receita estimada R$ 410 mil</span></div></section>
                 <section className="rounded-xl border border-border bg-card p-5 shadow-sm"><div className="mb-4 flex items-center justify-between"><div><p className="text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">Pulso da instituição</p><h2 className="mt-1 font-serif text-xl">Sinais que pedem decisão</h2></div><button onClick={() => setShowOffer(true)} className="text-xs font-bold text-primary hover:underline">Ver mercado <ArrowUpRight className="ml-1 inline h-3.5 w-3.5" /></button></div><div className="space-y-3">{alerts.map((alert) => resolved.includes(alert.text) ? null : <AlertRow key={alert.text} alert={alert} onResolve={() => resolveAlert(alert.text)} />)}</div>{resolved.length === alerts.length && <div className="rounded-lg border border-dashed border-border p-6 text-center text-sm text-muted-foreground">Nenhum alerta crítico pendente. O clube está respirando.</div>}</section>
               </div>
               <aside className="space-y-6"><section className="rounded-xl bg-sidebar p-5 text-sidebar-foreground shadow-lg"><div className="flex items-start justify-between"><div><p className="text-[10px] font-bold uppercase tracking-[0.18em] text-sidebar-primary">Saúde do clube</p><h2 className="mt-1 font-serif text-2xl">Estável, mas frágil</h2></div><span className="rounded-full bg-sidebar-accent px-2 py-1 text-[10px] font-bold text-sidebar-primary">68%</span></div><div className="mt-5 h-2 overflow-hidden rounded-full bg-sidebar-accent"><div className="h-full w-[68%] rounded-full bg-sidebar-primary" /></div><div className="mt-5 grid grid-cols-2 gap-4 border-t border-sidebar-border pt-4"><Health label="Torcida" value="79" delta="+6" /><Health label="Vestiário" value="64" delta="−3" /><Health label="Imprensa" value="58" delta="+2" /><Health label="Reputação" value="71" delta="+4" /></div></section><section className="rounded-xl border border-border bg-card p-5 shadow-sm"><div className="mb-4 flex items-center gap-2"><ClipboardList className="h-4 w-4 text-primary" /><h2 className="font-serif text-xl">Agenda executiva</h2></div><div className="space-y-4"><Agenda time="Hoje" title="Reunião com conselho" detail="Orçamento salarial · 14:30" /><Agenda time="Amanhã" title="Janela de transferências" detail="3 negociações em andamento" /><Agenda time="09 ago" title="Aurora FC x Náutico Central" detail="Brasileirão · Casa" /></div></section></aside>
