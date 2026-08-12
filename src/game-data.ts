@@ -38,7 +38,7 @@ export const leagues: League[] = [
   { id: 'brasileirao', name: 'Brasileirão Série A', country: 'Brasil', currency: 'BRL', clubs: leagueTeams.brasileirao.split('|') },
 ]
 
-export const featuredPlayers: Player[] = [
+const internationalPlayers: Player[] = [
   { name: 'Bukayo Saka', club: 'Arsenal', position: 'PD', age: 24, overall: 87, potential: 91, value: 125000000, salary: 10500000, contract: '30/06/2030', nationality: 'Inglaterra' },
   { name: 'Moisés Caicedo', club: 'Chelsea', position: 'VOL', age: 24, overall: 86, potential: 90, value: 105000000, salary: 9000000, contract: '30/06/2031', nationality: 'Equador' },
   { name: 'Mohamed Salah', club: 'Liverpool', position: 'PD', age: 34, overall: 88, potential: 88, value: 28000000, salary: 21000000, contract: '30/06/2027', nationality: 'Egito' },
@@ -61,6 +61,10 @@ export const featuredPlayers: Player[] = [
   { name: 'André', club: 'Wolverhampton', position: 'VOL', age: 25, overall: 82, potential: 87, value: 32000000, salary: 5200000, contract: '30/06/2029', nationality: 'Brasil' },
   { name: 'Germán Cano', club: 'Fluminense', position: 'CA', age: 38, overall: 80, potential: 80, value: 3000000, salary: 6500000, contract: '30/06/2027', nationality: 'Argentina' },
 ]
+
+import { brasileiraoPlayers } from '@/brazilian-players'
+
+export const featuredPlayers: Player[] = [...internationalPlayers, ...brasileiraoPlayers]
 
 export function formatMoney(value: number, currency: string) {
   return new Intl.NumberFormat('pt-BR', { style: 'currency', currency, maximumFractionDigits: 0 }).format(value)
