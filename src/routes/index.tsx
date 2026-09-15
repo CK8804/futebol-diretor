@@ -11,6 +11,7 @@ import {
   ClipboardList,
   Gauge,
   Goal,
+  Home,
   LayoutDashboard,
   Newspaper,
   Pause,
@@ -84,6 +85,12 @@ function Dashboard() {
 
 
   const resolveAlert = (text: string) => setResolved((current) => [...current, text])
+  const returnToHome = () => {
+    window.localStorage.removeItem('futebol-diretor-active-career')
+    setCareer(null)
+    setResolved([])
+    setShowOffer(false)
+  }
 
   return (
     <main className="min-h-dvh bg-background text-foreground">
@@ -103,7 +110,7 @@ function Dashboard() {
               </a>
             ))}
           </nav>
-          <div className="border-t border-sidebar-border p-4"><div className="flex items-center gap-3 rounded-lg bg-sidebar-accent/60 p-3"><div className="flex h-8 w-8 items-center justify-center rounded-full bg-sidebar-primary text-xs font-bold text-sidebar-primary-foreground">{career.clubCode}</div><div className="min-w-0"><p className="truncate text-xs font-semibold">{career.managerName}</p><p className="text-[10px] text-sidebar-foreground/55">Diretor executivo</p></div></div></div>
+          <div className="mt-auto border-t border-sidebar-border p-4"><button onClick={returnToHome} className="mb-3 flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-xs font-semibold text-sidebar-foreground/70 transition-colors hover:bg-sidebar-accent hover:text-sidebar-primary"><Home className="h-4 w-4" />Voltar à página inicial</button><div className="flex items-center gap-3 rounded-lg bg-sidebar-accent/60 p-3"><div className="flex h-8 w-8 items-center justify-center rounded-full bg-sidebar-primary text-xs font-bold text-sidebar-primary-foreground">{career.clubCode}</div><div className="min-w-0"><p className="truncate text-xs font-semibold">{career.managerName}</p><p className="text-[10px] text-sidebar-foreground/55">Diretor executivo</p></div></div></div>
         </aside>
 
         <section className="min-w-0 flex-1">
