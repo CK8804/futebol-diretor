@@ -1,4 +1,8 @@
 import type { Player } from '@/game-data'
+import { additionsA } from '@/brazilian-roster-additions-a'
+import { additionsB } from '@/brazilian-roster-additions-b'
+import { additionsC } from '@/brazilian-roster-additions-c'
+import { additionsD } from '@/brazilian-roster-additions-d'
 
 // Base jogável da Série A: três referências por clube para alimentar elenco,
 // mercado e relatórios sem depender de APIs externas.
@@ -65,6 +69,10 @@ const clubs: Array<[string, string, string, number, number, number, number, stri
   ['Vitória', 'Willian Oliveira', 'VOL', 33, 75, 75, 3500000, 'Brasil'],
 ]
 
-export const brasileiraoPlayers: Player[] = clubs.map(([club, name, position, age, overall, potential, value, nationality]) => ({
+const basePlayers: Player[] = clubs.map(([club, name, position, age, overall, potential, value, nationality]) => ({
   name, club, position, age, overall, potential, value, salary: Math.round(value * 0.12), contract: '30/06/2028', nationality,
 }))
+
+// Elencos ampliados com jogadores reais dos clubes da Série A. Cada clube tem
+// pelo menos 20 atletas disponíveis para mercado, scout e modo Draft.
+export const brasileiraoPlayers: Player[] = [...basePlayers, ...additionsA, ...additionsB, ...additionsC, ...additionsD]
